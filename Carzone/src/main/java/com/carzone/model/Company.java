@@ -19,6 +19,9 @@ public class Company {
     @Column
     private String name;
 
+    @Column
+    private String location;
+
     // One company can have many cars
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Car> cars;
