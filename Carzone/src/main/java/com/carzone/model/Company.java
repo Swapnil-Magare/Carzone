@@ -1,7 +1,10 @@
 package com.carzone.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+
 import java.util.List;
 
 @Entity
@@ -16,13 +19,11 @@ public class Company {
     @Column(name = "company_id")
     private Long id;
 
-    @Column
     private String name;
-
-    @Column
     private String location;
 
     // One company can have many cars
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("company")
     private List<Car> cars;
 }
