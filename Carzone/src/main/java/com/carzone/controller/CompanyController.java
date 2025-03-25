@@ -51,8 +51,4 @@ public class CompanyController {
         companyService.deleteCompany(id);
     }
 
-    public void delete(){
-
-    }
-
 }

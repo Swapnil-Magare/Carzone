@@ -6,6 +6,9 @@ import com.carzone.model.Company;
 import com.carzone.repositoy.CarRepository;
 import com.carzone.repositoy.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public class CarService {
         if (optional.isPresent()){
             Company company = optional.get();
             car.setCompany(company);
-            return carRepository.save(car);
+            carRepository.save(car);
         }
         return null;
     }

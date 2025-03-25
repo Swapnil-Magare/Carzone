@@ -4,6 +4,7 @@ import com.carzone.dto.CarDto;
 import com.carzone.model.Car;
 import com.carzone.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,5 +41,4 @@ public class CarController {
     public void deleteCar(@PathVariable long id){
         carService.deleteCar(id);
     }
-
 }
