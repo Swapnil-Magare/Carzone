@@ -1,0 +1,56 @@
+{
+    "company": [
+      {
+        "method": "POST",
+        "url": "http://localhost:8080/company/add",
+        "description": "To add a new company"
+      },
+      {
+        "method": "GET",
+        "url": "http://localhost:8080/company/{id}",
+        "description": "To get details of a specific company by ID"
+      },
+      {
+        "method": "GET",
+        "url": "http://localhost:8080/company/all",
+        "description": "To get details of all companies"
+      },
+      {
+        "method": "PUT",
+        "url": "http://localhost:8080/company/update/{id}",
+        "description": "To update details of a specific company by ID"
+      },
+      {
+        "method": "DELETE",
+        "url": "http://localhost:8080/company/delete/{id}",
+        "description": "To delete a specific company by ID"
+      }
+    ],
+    "car": [
+      {
+        "method": "POST",
+        "url": "http://localhost:8080/car/add",
+        "description": "To add a new car"
+      },
+      {
+        "method": "GET",
+        "url": "http://localhost:8080/car/{id}",
+        "description": "To get details of a specific car by ID"
+      },
+      {
+        "method": "GET",
+        "url": "http://localhost:8080/car/all",
+        "description": "To get details of all companies"
+      },
+      {
+        "method": "PUT",
+        "url": "http://localhost:8080/car/update/{id}",
+        "description": "To update details of a specific car by ID"
+      },
+      {
+        "method": "DELETE",
+        "url": "http://localhost:8080/car/delete/{id}",
+        "description": "To delete a specific car by ID"
+      }
+    ]
+  }
