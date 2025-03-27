@@ -2,6 +2,7 @@ package com.carzone.controller;
 
 import com.carzone.dto.CarDto;
 import com.carzone.dto.ResponseStructure;
+import com.carzone.exception.CarAlreadyExists;
 import com.carzone.model.Car;
 import com.carzone.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,15 @@ public class CarController {
         return carService.getBycarId(id);
     }
 
+    @GetMapping("/model/{model}")
+    public ResponseEntity<ResponseStructure<CarDto>> getByCarmodel(@PathVariable String model) {
+        return carService.getByCarModel(model);
+    }
+
     @GetMapping
-    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar() {
-        return carService.getAllCar();
+    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar(@RequestParam(defaultValue = "0") int pageNumber,
+                                                                     @RequestParam(defaultValue = "5") int pageSize) {
+        return carService.getAllCar(pageNumber, pageSize);
     }
 
     @PutMapping("/update/{id}")

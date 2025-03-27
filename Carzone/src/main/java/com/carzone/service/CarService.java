@@ -1,14 +1,18 @@
 package com.carzone.service;
 
-
 import com.carzone.dto.CarDto;
 import com.carzone.dto.ResponseStructure;
+import com.carzone.exception.CarAlreadyExists;
+import com.carzone.exception.CarNotFound;
 import com.carzone.model.Car;
 import com.carzone.model.Company;
 import com.carzone.repositoy.CarRepository;
 import com.carzone.repositoy.CompanyRepository;
-import com.carzone.serviceInterface.CarInterface;
+import com.carzone.service.serviceImpl.CarInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,12 +31,11 @@ public class CarService implements CarInterface {
     @Override
     public ResponseEntity<ResponseStructure<CarDto>> addCar(CarDto carDto) {
         Optional<Company> companyOpt = companyRepository.findById(carDto.getCompanyId());
-
-        if (companyOpt.isEmpty()) {
-            throw new RuntimeException("Company not found for ID: " + carDto.getCompanyId());
-        }
-
         Company company = companyOpt.get();
+        Optional<Car> existingCar = carRepository.findByModelAndCompanyId(carDto.getModel(), company.getId());
+        if (existingCar.isPresent()) {
+            throw new CarAlreadyExists("Car with model " + carDto.getModel() + " already exists for company " + company.getName());
+        }
         Car car = new Car();
         car.setModel(carDto.getModel());
         car.setYear(carDto.getYear());
@@ -45,17 +48,34 @@ public class CarService implements CarInterface {
     @Override
     public ResponseEntity<ResponseStructure<CarDto>> getBycarId(Long id) {
         Optional<Car> byId = carRepository.findById(id);
+        if (byId.isEmpty()) {
+            throw new CarNotFound("Car with this credentials is not available!");
+        }
         ResponseStructure rs = new ResponseStructure<Optional<Car>>(HttpStatus.CREATED.value(), "Car Fetched Successfully!", byId);
         return new ResponseEntity<ResponseStructure<CarDto>>(rs, HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar() {
-        List<Car> all = carRepository.findAll();
-        ResponseStructure rs = new ResponseStructure<List<Car>>(HttpStatus.CREATED.value(), "All Car Fetched Successfully!", all);
-        return new ResponseEntity<ResponseStructure<List<CarDto>>>(rs, HttpStatus.CREATED);
+    public ResponseEntity<ResponseStructure<CarDto>> getByCarModel(String model) {
+        Optional<Car> carOpt = carRepository.findByModel(model);
+        if (carOpt.isEmpty()) {
+            throw new CarNotFound("Model not found!");
+        }
+        ResponseStructure rs = new ResponseStructure<Optional<Car>>(HttpStatus.CREATED.value(), "Car Fetched Successfully!", carOpt);
+        return new ResponseEntity<ResponseStructure<CarDto>>(rs, HttpStatus.CREATED);
     }
 
+    @Override
+    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar(int pageNumber, int pageSize) {
+        Pageable p = PageRequest.of(pageNumber, pageSize);
+        Page<Car> carPage = carRepository.findAll(p);
+        List<Car> allCars = carPage.getContent();
+        if (allCars.isEmpty()) {
+            throw new CarNotFound("No data Found!");
+        }
+        ResponseStructure rs = new ResponseStructure<List<Car>>(HttpStatus.CREATED.value(), "All Car Fetched Successfully!", allCars);
+        return new ResponseEntity<ResponseStructure<List<CarDto>>>(rs, HttpStatus.CREATED);
+    }
 
     @Override
     public ResponseEntity<ResponseStructure<CarDto>> updateCar(long id, CarDto carDto) {
@@ -68,7 +88,7 @@ public class CarService implements CarInterface {
             ResponseStructure rs = new ResponseStructure<Car>(HttpStatus.OK.value(), "Car Details Updated Successfully!", save);
             return new ResponseEntity<ResponseStructure<CarDto>>(rs, HttpStatus.OK);
         }
-        throw new RuntimeException("Company not found for ID: " + carDto.getCompanyId());
+        throw new CarNotFound("Company not found for this Car");
     }
 
     @Override
@@ -84,7 +104,6 @@ public class CarService implements CarInterface {
             );
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
-        return null;
+        throw new CarNotFound("Failed to Delete");
     }
-
 }

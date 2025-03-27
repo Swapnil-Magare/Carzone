@@ -1,4 +1,4 @@
-package com.carzone.serviceInterface;
+package com.carzone.service.serviceImpl;
 
 import com.carzone.dto.CarDto;
 import com.carzone.dto.ResponseStructure;
@@ -14,9 +14,11 @@ public interface CarInterface {
 
     ResponseEntity<ResponseStructure<CarDto>> getBycarId(Long id);
 
-    ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar();
+    ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar(int pageNumber, int pageSize);
 
     ResponseEntity<ResponseStructure<CarDto>> updateCar(long id, CarDto carDto);
 
     ResponseEntity<ResponseStructure<Optional<Car>>> deleteByCarId(Long id);
+
+    ResponseEntity<ResponseStructure<CarDto>> getByCarModel(String model);
 }
