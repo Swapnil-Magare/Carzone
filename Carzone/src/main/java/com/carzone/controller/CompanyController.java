@@ -1,10 +1,12 @@
 package com.carzone.controller;
 
 import com.carzone.dto.CompanyDto;
+import com.carzone.dto.ResponseStructure;
 import com.carzone.model.Car;
 import com.carzone.model.Company;
 import com.carzone.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,36 +21,29 @@ public class CompanyController {
 
 
     @PostMapping("/add")
-    public String addCompany(@RequestBody Company company) {
-        if (company.getCars() != null) {
-            for (Car car : company.getCars()) {
-                car.setCompany(company);
-            }
-        }
-        companyService.addCompany(company);
-        return "Company and cars saved successfully!";
+    public ResponseEntity<ResponseStructure<Company>> addCompany(@RequestBody CompanyDto companyDto) {
+        return companyService.addCompany(companyDto);
     }
 
     @GetMapping("/all")
-    public List<Company> getAllCompanies() {
+    public ResponseEntity<ResponseStructure<List<Company>>> getAllCompanies() {
         return companyService.getAllCompany();
     }
 
     @GetMapping("/{id}")
-    public Optional<Company> getCompanyById(@PathVariable long id) {
+    public ResponseEntity<ResponseStructure<Company>> getCompanyById(@PathVariable long id) {
         return companyService.getCompanyById(id);
     }
 
     @PutMapping("/update/{id}")
-    public CompanyDto updateCompanyByName(@PathVariable long id, @RequestBody CompanyDto company) {
+    public ResponseEntity<ResponseStructure<Company>> updateCompanyByName(@PathVariable long id, @RequestBody CompanyDto company) {
 
         return companyService.updateCompanyName(id, company);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteCompanyById(@PathVariable long id) {
-
-        companyService.deleteCompany(id);
+    public ResponseEntity<ResponseStructure<CompanyDto>> deleteCompanyById(@PathVariable long id) {
+        return companyService.deleteCompany(id);
     }
 
 }

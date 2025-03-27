@@ -2,9 +2,11 @@ package com.carzone.dto;
 
 import com.carzone.model.Car;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 @Data
+@NoArgsConstructor
 public class CompanyDto {
     private String name;
     private String location;
@@ -23,6 +25,7 @@ public class CompanyDto {
     }
 
     public void setLocation(String location) {
+
         this.location = location;
     }
 

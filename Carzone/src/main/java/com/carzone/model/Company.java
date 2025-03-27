@@ -27,6 +27,12 @@ public class Company {
     @JsonIgnoreProperties("company")
     private List<Car> cars;
 
+    public Company(String name, String location, List<Car> cars) {
+        this.name = name;
+        this.location = location;
+        this.cars = cars;
+    }
+
     public Company(String name, String location) {
         this.name = name;
         this.location = location;
