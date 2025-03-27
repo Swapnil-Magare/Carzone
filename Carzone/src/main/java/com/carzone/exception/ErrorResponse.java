@@ -1,13 +1,14 @@
-package com.carzone.dto;
+package com.carzone.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.springframework.http.HttpStatusCode;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class ResponseStructure<T> {
+@NoArgsConstructor
+public class ErrorResponse {
     private int statusCode;
     private String message;
-    private T t;
+
 }

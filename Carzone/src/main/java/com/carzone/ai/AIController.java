@@ -16,8 +16,8 @@ public class AIController {
     private OllamaChatModel client;
 
     @GetMapping("/prompt/{message}")
-    public Flux<String> prompt(@PathVariable String message){
-        return client.stream(message);
-
+    public Flux<String> prompt(@PathVariable String message) {
+        Flux<String> response = client.stream(message);
+        return response;
     }
 }
