@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<Company,Long> {
 
     public void deleteByName(String name);
+
+    Optional<Company> findByName(String name);
 }

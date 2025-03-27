@@ -1,14 +1,12 @@
-package com.carzone.serviceInterface;
+package com.carzone.service.serviceImpl;
 
 
 import com.carzone.dto.CompanyDto;
 import com.carzone.dto.ResponseStructure;
 import com.carzone.model.Company;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CompanyInterface {
 
