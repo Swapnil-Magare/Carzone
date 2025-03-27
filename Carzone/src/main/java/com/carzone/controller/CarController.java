@@ -1,6 +1,7 @@
 package com.carzone.controller;
 
 import com.carzone.dto.CarDto;
+import com.carzone.dto.ResponseStructure;
 import com.carzone.model.Car;
 import com.carzone.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +18,28 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    @PostMapping("/{id}/add")
-    public Car addCar(@PathVariable long id, @RequestBody Car car){
-        return carService.addCar(id,car);
-    }
-
-    @GetMapping
-    public List<Car> getAllCar(){
-        return carService.getAllCar();
+    @PostMapping("/add")
+    public ResponseEntity<ResponseStructure<CarDto>> addCar(@RequestBody CarDto carDto) {
+        return carService.addCar(carDto);
     }
 
     @GetMapping("/{id}")
-    public Optional<Car> getCarById(@PathVariable long id){
-        return carService.getCarById(id);
+    public ResponseEntity<ResponseStructure<CarDto>> getByCarId(@PathVariable Long id) {
+        return carService.getBycarId(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar() {
+        return carService.getAllCar();
     }
 
     @PutMapping("/update/{id}")
-    public CarDto updateCar(@PathVariable long id, @RequestBody CarDto carDto){
+    public ResponseEntity<ResponseStructure<CarDto>> updateCar(@PathVariable long id, @RequestBody CarDto carDto) {
         return carService.updateCar(id, carDto);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public void deleteCar(@PathVariable long id){
-        carService.deleteCar(id);
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<ResponseStructure<Optional<Car>>> deleteCar(@PathVariable Long id) {
+      return carService.deleteByCarId(id);
     }
 }
