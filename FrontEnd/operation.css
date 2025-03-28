@@ -1,0 +1,27 @@
+#add_company{
+    display: none;
+}
+
+#update_company{
+    display: none;
+    flex-direction: column;
+}
+
+#add_car{
+    display: none;
+}
+
+#update_car{
+    display: none;
+}
+
+#delete_car{
+    display: none;
+}
+#delete_company{
+    display: none;
+}
+
+#info{
+    display: none;
+}
