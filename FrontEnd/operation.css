@@ -25,3 +25,7 @@
 #info{
     display: none;
 }
+
+#container{
+    height: 100%;
+}
