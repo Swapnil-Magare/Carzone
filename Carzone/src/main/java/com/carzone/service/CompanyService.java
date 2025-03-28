@@ -1,5 +1,6 @@
 package com.carzone.service;
 
+import com.carzone.dto.CarDto;
 import com.carzone.dto.CompanyDto;
 import com.carzone.dto.ResponseStructure;
 import com.carzone.exception.CompanyAlreadyExists;
@@ -41,7 +42,7 @@ public class CompanyService implements CompanyInterface {
 
         if (companyDto.getCars() != null) {
             List<Car> cars = new ArrayList<>();
-            for (Car carDto : companyDto.getCars()) {
+            for (CarDto carDto : companyDto.getCars()) {
                 Car car = new Car();
                 car.setModel(carDto.getModel());
                 car.setYear(carDto.getYear());
