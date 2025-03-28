@@ -1,7 +1,0 @@
-{
-    "users":{
-    "user1@example.com": "password123",
-    "user2@example.com": "password456",
-    "user3@example.com": "password789",
-    "user4@example.com": "password101"}
-}
