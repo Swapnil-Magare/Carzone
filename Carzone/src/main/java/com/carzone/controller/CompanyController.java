@@ -2,8 +2,6 @@ package com.carzone.controller;
 
 import com.carzone.dto.CompanyDto;
 import com.carzone.dto.ResponseStructure;
-import com.carzone.exception.CompanyAlreadyExists;
-import com.carzone.model.Car;
 import com.carzone.model.Company;
 import com.carzone.repositoy.CompanyRepository;
 import com.carzone.service.CompanyService;
@@ -12,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 @RestController
 @RequestMapping("/company")
 public class CompanyController {
@@ -37,6 +35,11 @@ public class CompanyController {
     @GetMapping("/{id}")
     public ResponseEntity<ResponseStructure<Company>> getCompanyById(@PathVariable long id) {
         return companyService.getCompanyById(id);
+    }
+
+    @GetMapping("/name/{name}")
+    public ResponseEntity<ResponseStructure<Company>> getCompanyByName(@PathVariable String name){
+        return companyService.getCompanyByName(name);
     }
 
     @PutMapping("/update/{id}")

@@ -57,7 +57,7 @@ public class CompanyService implements CompanyInterface {
     }
 
 
-        @Override
+    @Override
     public ResponseEntity<ResponseStructure<List<Company>>> getAllCompany() {
         List<Company> companies = companyRepository.findAll();
         ResponseStructure<List<Company>> responseStructure = new ResponseStructure<List<Company>>(HttpStatus.OK.value(),"Show All Companies ",companies);
@@ -73,6 +73,18 @@ public class CompanyService implements CompanyInterface {
             return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.OK);
         }else{
             throw new CompanyNotFound("Company with id "+id+" is not found.");
+        }
+    }
+
+    @Override
+    public ResponseEntity<ResponseStructure<Company>> getCompanyByName(String name){
+        Optional<Company> optional = companyRepository.findByName(name);
+        if (optional.isPresent()){
+            Company company = optional.get();
+            ResponseStructure<Company> responseStructure = new ResponseStructure<Company>(HttpStatus.OK.value(),"Company Fetched Successfully.",company);
+            return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.OK);
+        }else{
+            throw new CompanyNotFound("Company with name "+name+" is not found.");
         }
     }
 
