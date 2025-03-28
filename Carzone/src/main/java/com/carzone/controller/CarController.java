@@ -2,6 +2,7 @@ package com.carzone.controller;
 
 import com.carzone.dto.CarDto;
 import com.carzone.dto.ResponseStructure;
+import com.carzone.exception.CarAlreadyExists;
 import com.carzone.model.Car;
 import com.carzone.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500/Carzone-Roshan/")   //"http://localhost:5500"
 @RestController
 @RequestMapping("/car")
 public class CarController {
@@ -28,9 +30,15 @@ public class CarController {
         return carService.getBycarId(id);
     }
 
+    @GetMapping("/model/{model}")
+    public ResponseEntity<ResponseStructure<CarDto>> getByCarmodel(@PathVariable String model) {
+        return carService.getByCarModel(model);
+    }
+
     @GetMapping
-    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar() {
-        return carService.getAllCar();
+    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar(@RequestParam(defaultValue = "0") int pageNumber,
+                                                                     @RequestParam(defaultValue = "5") int pageSize) {
+        return carService.getAllCar(pageNumber, pageSize);
     }
 
     @PutMapping("/update/{id}")

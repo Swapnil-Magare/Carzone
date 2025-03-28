@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CarzoneApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(CarzoneApplication.class, args);
 	}
 

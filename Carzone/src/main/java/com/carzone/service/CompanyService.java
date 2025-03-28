@@ -1,12 +1,15 @@
 package com.carzone.service;
 
+import com.carzone.dto.CarDto;
 import com.carzone.dto.CompanyDto;
 import com.carzone.dto.ResponseStructure;
+import com.carzone.exception.CompanyAlreadyExists;
+import com.carzone.exception.CompanyNotFound;
 import com.carzone.model.Car;
 import com.carzone.model.Company;
 import com.carzone.repositoy.CarRepository;
 import com.carzone.repositoy.CompanyRepository;
-import com.carzone.serviceInterface.CompanyInterface;
+import com.carzone.service.serviceImpl.CompanyInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +30,19 @@ public class CompanyService implements CompanyInterface {
 
     @Override
     public ResponseEntity<ResponseStructure<Company>> addCompany(CompanyDto companyDto) {
+        Optional<Company> existingCompany = companyRepository.findByName(companyDto.getName());
+        if (existingCompany.isPresent()) {
+            throw new CompanyAlreadyExists("Company with name '" + companyDto.getName() + "' already exists.");
+        }
+
         Company company = new Company();
         company.setName(companyDto.getName());
         company.setLocation(companyDto.getLocation());
+
+
         if (companyDto.getCars() != null) {
             List<Car> cars = new ArrayList<>();
-            for (Car carDto : companyDto.getCars()) {
+            for (CarDto carDto : companyDto.getCars()) {
                 Car car = new Car();
                 car.setModel(carDto.getModel());
                 car.setYear(carDto.getYear());
@@ -42,12 +52,13 @@ public class CompanyService implements CompanyInterface {
             company.setCars(cars);
         }
         Company savedCompany = companyRepository.save(company);
-//        CompanyDto savedCompanyDto = new CompanyDto(savedCompany.getName(), savedCompany.getLocation(), carDtoList);
+
         ResponseStructure<Company> responseStructure = new ResponseStructure<>(HttpStatus.OK.value(), "Company and cars saved successfully!", savedCompany);
-        return new ResponseEntity<>(responseStructure, HttpStatus.OK);    }
+        return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+    }
 
 
-        @Override
+    @Override
     public ResponseEntity<ResponseStructure<List<Company>>> getAllCompany() {
         List<Company> companies = companyRepository.findAll();
         ResponseStructure<List<Company>> responseStructure = new ResponseStructure<List<Company>>(HttpStatus.OK.value(),"Show All Companies ",companies);
@@ -61,8 +72,21 @@ public class CompanyService implements CompanyInterface {
             Company company = optional.get();
             ResponseStructure<Company> responseStructure = new ResponseStructure<Company>(HttpStatus.OK.value(),"Company Fetched Successfully.",company);
             return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.OK);
+        }else{
+            throw new CompanyNotFound("Company with id "+id+" is not found.");
         }
-        return null;
+    }
+
+    @Override
+    public ResponseEntity<ResponseStructure<Company>> getCompanyByName(String name){
+        Optional<Company> optional = companyRepository.findByName(name);
+        if (optional.isPresent()){
+            Company company = optional.get();
+            ResponseStructure<Company> responseStructure = new ResponseStructure<Company>(HttpStatus.OK.value(),"Company Fetched Successfully.",company);
+            return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.OK);
+        }else{
+            throw new CompanyNotFound("Company with name "+name+" is not found.");
+        }
     }
 
     @Override
@@ -77,8 +101,7 @@ public class CompanyService implements CompanyInterface {
             ResponseStructure<Company> responseStructure = new ResponseStructure<Company>(HttpStatus.OK.value(), "Company Updated Successfully.", save);
             return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.OK);
         } else {
-            ResponseStructure<Company> responseStructure = new ResponseStructure<Company>(HttpStatus.NOT_FOUND.value(), "Company not found.", null);
-            return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.NOT_FOUND);
+            throw new CompanyNotFound("Company with id "+id+" is not found.");
         }
     }
 
@@ -95,9 +118,9 @@ public class CompanyService implements CompanyInterface {
 
             ResponseStructure<CompanyDto> responseStructure = new ResponseStructure<>(HttpStatus.OK.value(), "Company Deleted Successfully.", companyDto);
             return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+        }else{
+            throw new CompanyNotFound("Company with id "+id+" is not found.");
         }
-        ResponseStructure<CompanyDto> responseStructure = new ResponseStructure<>(HttpStatus.NOT_FOUND.value(), "Company not found.", null);
-        return new ResponseEntity<>(responseStructure, HttpStatus.NOT_FOUND);
     }
 
 }
