@@ -13,15 +13,22 @@ let b=0;
 let obj={"operation":"car"}
 sessionStorage.setItem('formData', JSON.stringify(obj))
 
-let data=window.fetch("./data.json")
+let data=window.fetch("http://localhost:8080/company/all")
 data.then( (d)=>{
     let fD=d.json()
     fD.then(
         (final)=>{
-            // console.log(final)
-            for (let i of final){
+            console.log(final)
+            
+            final.t.sort((a,b)=>a.id-b.id)
+
+            for (let i of final.t){
                 let {name,location,id}=i
-                company.innerHTML+=`<section id="${id}" onclick=clk(event,id) class="company_name ${name}"><p>${name}</p><address>${location}</address></section>`
+                company.innerHTML+=`<section id="${id}" onclick=clk(event,id) class="company_name ${name}"><p>${name}</p><address>${location}</address></section>
+                
+            <a id="info" href="./operation.html">INFO</a>
+                
+                `
             }
 
         },
@@ -36,17 +43,21 @@ async function clk(event,id){
     company.style.display="none"
     b1.style.display="inline"
     cd.style.display="flex"
-    let data=window.fetch("./data.json")
+    let data=window.fetch("http://localhost:8080/company/all")
         data.then(    (d)=>{
             let fD=d.json()
             fD.then(
                 (final)=>{
                     // console.log(final)
-                    for (let k of final){
+                    
+                    final.t.sort((a,b)=>a.id-b.id)
+                    for (let k of final.t){
                         if (id==k.id){
                             let {cars,name}=k
                             title.innerText=`${name}`
                             title2.innerText='List of the Cars'
+                            let obj1={"operation":"car11","id":id}
+                            sessionStorage.setItem('car', JSON.stringify(obj1))
                             for (let car of cars){
                                 let {id:No,model,year}=car
                                 c1.innerHTML+=`
@@ -95,7 +106,7 @@ if (formData.operation=="car"){
 console.log("aaa");
 let k=document.getElementById(`add`)
 k.addEventListener("click",(v)=>{
-let obj={"operation":"add"}
+let obj={"operation":"add","company":"id"}
 sessionStorage.setItem('formData', JSON.stringify(obj));
 window.location.href = "operation.html";})
 
