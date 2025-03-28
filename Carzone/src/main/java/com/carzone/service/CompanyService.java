@@ -1,6 +1,5 @@
 package com.carzone.service;
 
-import com.carzone.dto.CarDto;
 import com.carzone.dto.CompanyDto;
 import com.carzone.dto.ResponseStructure;
 import com.carzone.exception.CompanyAlreadyExists;
@@ -42,7 +41,7 @@ public class CompanyService implements CompanyInterface {
 
         if (companyDto.getCars() != null) {
             List<Car> cars = new ArrayList<>();
-            for (CarDto carDto : companyDto.getCars()) {
+            for (Car carDto : companyDto.getCars()) {
                 Car car = new Car();
                 car.setModel(carDto.getModel());
                 car.setYear(carDto.getYear());
@@ -74,6 +73,18 @@ public class CompanyService implements CompanyInterface {
             return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.OK);
         }else{
             throw new CompanyNotFound("Company with id "+id+" is not found.");
+        }
+    }
+
+    @Override
+    public ResponseEntity<ResponseStructure<Company>> getCompanyByName(String name){
+        Optional<Company> optional = companyRepository.findByName(name);
+        if (optional.isPresent()){
+            Company company = optional.get();
+            ResponseStructure<Company> responseStructure = new ResponseStructure<Company>(HttpStatus.OK.value(),"Company Fetched Successfully.",company);
+            return new ResponseEntity<ResponseStructure<Company>>(responseStructure, HttpStatus.OK);
+        }else{
+            throw new CompanyNotFound("Company with name "+name+" is not found.");
         }
     }
 
