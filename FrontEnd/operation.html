@@ -12,11 +12,11 @@
         <h1>Car Zone</h1>
         <a href="./home.html">Back</a>
     </div>
-    <div class="container">
+    <div class="container" style="height: 100%">
         <form action="" id="add_company">
             <h1>Add New Company Form</h1>
             <label for="brand">Enter Company Name :</label>
-            <input type="text" id="brand" name="brand" placeholder="Company Name" required>
+            <input type="text" id="brand" name="name" placeholder="Company Name" required>
             <label for="location">Enter Location</label>
             <input type="text" id="location" name="location" placeholder="Company Location" required>
             <button type="submit">Create</button>
@@ -24,24 +24,30 @@
 
         <form action="" id="add_car">
             <h1>Add New Car Form</h1>
-            <label for="car">Enter Car Model Name :</label>
-            <input type="text" id="car" name="car" placeholder="Car Model Name" required>
+            <label for="model">Enter Car Model Name :</label>
+            <input type="text" id="model" name="model" placeholder="Car Model Name" required>
             <label for="year">Enter year</label>
             <input type="text" id="year" name="year" placeholder="Car model year" required>
             <button type="submit">Create</button>
         </form>
         <form action="" id="update_car">
             <h1>Update Car Form</h1>
-            <label for="car">Enter Car Model Name :</label>
-            <input type="text" id="car" name="car" placeholder="Company Name" required>
+            
+            <label for="id">Enter Car ID  :</label>
+            <input type="number" id="id" name="id" placeholder="Car ID" required>
+            <label for="model">Enter Car Model Name :</label>
+            <input type="text" id="model" name="model" placeholder="Company Name" required>
             <label for="year">Enter year</label>
             <input type="text" id="year" name="year" placeholder="Company year" required>
             <button type="submit">Update</button>
         </form>
         <form action="" id="update_company">
             <h1>Update Company Form</h1>
+            
+            <label for="brand">Enter Company ID  :</label>
+            <input type="number" id="id" name="id" placeholder="Company ID" required>
             <label for="brand">Enter Company Name :</label>
-            <input type="text" id="brand" name="brand" placeholder="Company Name" required>
+            <input type="text" id="brand" name="name" placeholder="Company Name" required>
             <label for="location">Enter Location</label>
             <input type="text" id="location" name="location" placeholder="Company Location" required>
             <button type="submit">Create</button>
@@ -49,14 +55,14 @@
 
         <form action="" id="delete_car">
             <h1>DELETE Car Form</h1>
-            <label for="car">Enter Car Model Name :</label>
-            <input type="text" id="car" name="car" placeholder="Company Name" required>
+            <label for="id">Enter Car Model ID :</label>
+            <input type="text" id="id" name="id" placeholder="Company Name" required>
             <button type="submit">delete</button>
         </form>
         <form action="" id="delete_company">
             <h1>Delete Company Form</h1>
-            <label for="brand">Enter Company Name :</label>
-            <input type="text" id="brand" name="brand" placeholder="Company Name" required>
+            <label for="id">Enter Company ID :</label>
+            <input type="text" id="id" name="id" placeholder="Company ID" required>
             <button type="submit">Delete</button>
         </form>
 
