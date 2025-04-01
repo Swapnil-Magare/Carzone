@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
 @RestController
 @RequestMapping("/car")
 public class CarController {
@@ -28,9 +29,15 @@ public class CarController {
         return carService.getBycarId(id);
     }
 
+    @GetMapping("/model/{model}")
+    public ResponseEntity<ResponseStructure<CarDto>> getByCarmodel(@PathVariable String model) {
+        return carService.getByCarModel(model);
+    }
+
     @GetMapping
-    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar() {
-        return carService.getAllCar();
+    public ResponseEntity<ResponseStructure<List<CarDto>>> getAllCar(@RequestParam(defaultValue = "0") int pageNumber,
+                                                                     @RequestParam(defaultValue = "5") int pageSize) {
+        return carService.getAllCar(pageNumber, pageSize);
     }
 
     @PutMapping("/update/{id}")
