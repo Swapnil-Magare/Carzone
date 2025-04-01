@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @PutMapping("/Update")
-    public ResponseEntity<ResponseStructure<UserRequest>> update(@RequestParam Integer id, @RequestParam UserRequest userRequest) {
+    public ResponseEntity<ResponseStructure<UserRequest>> update(@RequestParam Integer id, @RequestBody UserRequest userRequest) {
         return userService.updateUserDetails(id, userRequest);
     }
 
