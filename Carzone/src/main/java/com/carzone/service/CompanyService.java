@@ -1,5 +1,6 @@
 package com.carzone.service;
 
+import com.carzone.dto.CarDto;
 import com.carzone.dto.CompanyDto;
 import com.carzone.dto.ResponseStructure;
 import com.carzone.exception.CompanyAlreadyExists;
@@ -10,6 +11,8 @@ import com.carzone.repositoy.CarRepository;
 import com.carzone.repositoy.CompanyRepository;
 import com.carzone.service.serviceImpl.CompanyInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -58,8 +61,11 @@ public class CompanyService implements CompanyInterface {
 
 
     @Override
-    public ResponseEntity<ResponseStructure<List<Company>>> getAllCompany() {
-        List<Company> companies = companyRepository.findAll();
+    public ResponseEntity<ResponseStructure<List<Company>>> getAllCompany(int pageNumber, int pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        Page<Company> page = companyRepository.findAll(pageRequest);
+        List<Company> companies = page.getContent();
+
         ResponseStructure<List<Company>> responseStructure = new ResponseStructure<List<Company>>(HttpStatus.OK.value(),"Show All Companies ",companies);
         return new ResponseEntity<ResponseStructure<List<Company>>>(responseStructure, HttpStatus.OK);
     }

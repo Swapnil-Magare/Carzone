@@ -12,7 +12,7 @@ public interface CompanyInterface {
 
     public ResponseEntity<ResponseStructure<Company>> addCompany(CompanyDto companyDto);
 
-    public ResponseEntity<ResponseStructure<List<Company>>> getAllCompany();
+    public ResponseEntity<ResponseStructure<List<Company>>> getAllCompany(int pageNumber, int pageSize);
 
     public ResponseEntity<ResponseStructure<Company>> getCompanyById(long id);
 

@@ -28,8 +28,8 @@ public class CompanyController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<ResponseStructure<List<Company>>> getAllCompanies() {
-        return companyService.getAllCompany();
+    public ResponseEntity<ResponseStructure<List<Company>>> getAllCompanies(@RequestParam(defaultValue = "0") int pageNumber, @RequestParam(defaultValue = "3") int pageSize) {
+        return companyService.getAllCompany(pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")
