@@ -1,6 +1,6 @@
 # 🚀 Carzone
 
-Welcome to the project! Please follow the guidelines below to contribute without affecting the `master` branch directly.
+Welcome to the project! Please follow the guidelines below to contribute without affecting the `devlop` branch directly.
 
 ---
 
